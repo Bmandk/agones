@@ -58,6 +58,7 @@ KIND_CONTAINER_NAME=$(KIND_PROFILE)-control-plane
 
 # Game Server image to use while doing end-to-end tests
 GS_TEST_IMAGE ?= gcr.io/agones-images/udp-server:0.21
+GS_TEST_IMAGE_TCPUDP ?= gcr.io/agones-dev-286708/tcpudp-server:0.1
 
 ALPHA_FEATURE_GATES ?= "PlayerTracking=true&SDKWatchSendOnExecute=true"
 
@@ -254,6 +255,7 @@ test-e2e-integration: $(ensure-build-image)
 	echo "Starting e2e integration test!"
 	$(GO_TEST) $(ARGS) $(agones_package)/test/e2e $(GO_E2E_TEST_ARGS) \
 		--gameserver-image=$(GS_TEST_IMAGE) \
+		--gameserver-image-tcpudp=$(GS_TEST_IMAGE_TCPUDP)
 		--pullsecret=$(IMAGE_PULL_SECRET) \
 		--feature-gates=$(FEATURE_GATES) \
 		--namespace=$(GAMESERVERS_NAMESPACE)
