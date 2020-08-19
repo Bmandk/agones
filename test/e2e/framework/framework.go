@@ -118,7 +118,7 @@ func newFramework(kubeconfig string, qps float32, burst int) (*Framework, error)
 const (
 	kubeconfigFlag      = "kubeconfig"
 	gsimageFlag         = "gameserver-image"
-	gsimageTcpUdpFlag   = "gameserver-image-tcpudp"
+	gsimageTCPUDPFlag   = "gameserver-image-tcpudp"
 	pullSecretFlag      = "pullsecret"
 	stressTestLevelFlag = "stress"
 	perfOutputDirFlag   = "perf-output"
@@ -156,7 +156,7 @@ func NewFromFlags() (*Framework, error) {
 
 	viper.SetDefault(kubeconfigFlag, filepath.Join(usr.HomeDir, "/.kube/config"))
 	viper.SetDefault(gsimageFlag, "gcr.io/agones-images/udp-server:0.21")
-	viper.SetDefault(gsimagetcpudpFlag, "gcr.io/agones-dev-286708/tcpudp-server:0.1")
+	viper.SetDefault(gsimageTCPUDPFlag, "gcr.io/agones-dev-286708/tcpudp-server:0.1")
 	viper.SetDefault(pullSecretFlag, "")
 	viper.SetDefault(stressTestLevelFlag, 0)
 	viper.SetDefault(perfOutputDirFlag, "")
@@ -166,7 +166,7 @@ func NewFromFlags() (*Framework, error) {
 
 	pflag.String(kubeconfigFlag, viper.GetString(kubeconfigFlag), "kube config path, e.g. $HOME/.kube/config")
 	pflag.String(gsimageFlag, viper.GetString(gsimageFlag), "gameserver image to use for those tests, gcr.io/agones-images/udp-server:0.21")
-	pflag.String(gsimagetcpudpFlag, viper.GetString(gsimagetcpudpFlag), "gameserver image to use for tcpudp tests, gcr.io/agones-dev-286708/tcpudp-server:0.1")
+	pflag.String(gsimageTCPUDPFlag, viper.GetString(gsimageTCPUDPFlag), "gameserver image to use for tcpudp tests, gcr.io/agones-dev-286708/tcpudp-server:0.1")
 	pflag.String(pullSecretFlag, viper.GetString(pullSecretFlag), "optional secret to be used for pulling the gameserver and/or Agones SDK sidecar images")
 	pflag.Int(stressTestLevelFlag, viper.GetInt(stressTestLevelFlag), "enable stress test at given level 0-100")
 	pflag.String(perfOutputDirFlag, viper.GetString(perfOutputDirFlag), "write performance statistics to the specified directory")
@@ -178,7 +178,7 @@ func NewFromFlags() (*Framework, error) {
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 	runtime.Must(viper.BindEnv(kubeconfigFlag))
 	runtime.Must(viper.BindEnv(gsimageFlag))
-	runtime.Must(viper.BindEnv(gsimagetcpudpFlag))
+	runtime.Must(viper.BindEnv(gsimageTCPUDPFlag))
 	runtime.Must(viper.BindEnv(pullSecretFlag))
 	runtime.Must(viper.BindEnv(stressTestLevelFlag))
 	runtime.Must(viper.BindEnv(perfOutputDirFlag))
@@ -193,7 +193,7 @@ func NewFromFlags() (*Framework, error) {
 		return framework, err
 	}
 	framework.GameServerImage = viper.GetString(gsimageFlag)
-	framework.GameServerImageTCPUDP = viper.GetString(gsimagetcpudpFlag)
+	framework.GameServerImageTCPUDP = viper.GetString(gsimageTCPUDPFlag)
 	framework.PullSecret = viper.GetString(pullSecretFlag)
 	framework.StressTestLevel = viper.GetInt(stressTestLevelFlag)
 	framework.PerfOutputDir = viper.GetString(perfOutputDirFlag)
