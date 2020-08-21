@@ -154,5 +154,11 @@ resource "google_compute_firewall" "default" {
     protocol = "udp"
     ports    = [var.ports]
   }
+
+  allow {
+    protocol = "tcp"
+    ports    = [var.ports]
+  }
+
   target_tags = ["game-server"]
 }
